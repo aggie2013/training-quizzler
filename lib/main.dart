@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'quiz_brain.dart';
 
 QuizBrain quizBrain = QuizBrain();
@@ -34,6 +35,19 @@ class _QuizPageState extends State<QuizPage> {
     bool correctAnswer = quizBrain.getQuestionAnswer();
     
     setState(() {
+    if (quizBrain.reachedLastQuestion()) {
+      Alert(
+      context: context,
+      title: "Finished!",
+      desc: "Reached the last question.",
+    ).show();
+
+      quizBrain.resetQuestionNumber();
+      scoreKeeper = [];
+      
+      return;
+    }
+
     if (userInput == correctAnswer) {
       scoreKeeper.add(
         Icon(Icons.check, color: Colors.green),
